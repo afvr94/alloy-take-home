@@ -1,6 +1,13 @@
 import { Document, model, Schema } from 'mongoose';
 
-const AccountSchema = new Schema({
+interface IAccountSchema extends Document {
+  email: string;
+  password: string;
+  slackAccessToken: string;
+  shopifyAccessToken: string;
+}
+
+const AccountSchema = new Schema<IAccountSchema>({
   email: {
     type: String,
     required: true,
@@ -19,13 +26,6 @@ const AccountSchema = new Schema({
     type: String,
   },
 });
-
-interface IAccountSchema extends Document {
-  email: string;
-  password: string;
-  slackAccessToken: string;
-  shopifyAccessToken: string;
-}
 
 const Account = model<IAccountSchema>('Account', AccountSchema);
 
