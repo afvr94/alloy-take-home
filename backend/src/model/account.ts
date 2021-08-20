@@ -20,13 +20,13 @@ const AccountSchema = new Schema({
   },
 });
 
-interface IUserSchema extends Document {
+interface IAccountSchema extends Document {
   email: string;
   password: string;
   slackAccessToken: string;
   shopifyAccessToken: string;
 }
 
-const Account = model<IUserSchema>('Account', AccountSchema);
+const Account = model<IAccountSchema>('Account', AccountSchema);
 
 export default Account;
