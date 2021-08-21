@@ -1,0 +1,10 @@
+{
+    "cSpell.words": [
+        "tailwindcss"
+    ],
+    "eslint.workingDirectories": [
+        "frontend",
+        "backend"
+    ],
+    "editor.fontLigatures": null
+}

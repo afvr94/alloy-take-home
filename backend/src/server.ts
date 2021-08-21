@@ -1,11 +1,15 @@
 import dotenv from 'dotenv';
 import express, { Application, json, urlencoded } from 'express';
+import cors from 'cors';
 import routes from './routes';
 import db from './db';
 
 dotenv.config();
 
 const app: Application = express();
+// TODO: CHECK
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
