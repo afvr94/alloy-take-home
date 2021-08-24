@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { fetchShopifyUrl, fetchSlackUrl, fetchAccount } from 'src/api';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,6 +20,11 @@ const Authentication: React.FC = () => {
   const [state, setState] = useState(State.LOADING);
   const navigate = useNavigate();
 
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem('authToken');
+    navigate('/login');
+  }, [navigate]);
+
   useEffect(() => {
     (async () => {
       const authToken = localStorage.getItem('authToken');
@@ -33,11 +38,15 @@ const Authentication: React.FC = () => {
         const { data } = await fetchAccount();
         setAccount(data);
         setState(State.LOADED);
-      } catch (e) {
+      } catch (error) {
+        if (error?.response?.status === HttpError.UNAUTHENTICATED) {
+          handleLogout();
+          return;
+        }
         setState(State.ERROR);
       }
     })();
-  }, [navigate]);
+  }, [handleLogout, navigate]);
 
   const handleGetSlackUrl = async () => {
     try {
@@ -45,7 +54,7 @@ const Authentication: React.FC = () => {
       window.location.href = data.url;
     } catch (error) {
       if (error?.response?.status === HttpError.UNAUTHENTICATED) {
-        navigate('/login');
+        handleLogout();
         return;
       }
       toast.error('There was an error fetching slack url ☹️', {
@@ -60,18 +69,13 @@ const Authentication: React.FC = () => {
       window.location.href = data.url;
     } catch (error) {
       if (error?.response?.status === HttpError.UNAUTHENTICATED) {
-        navigate('/login');
+        handleLogout();
         return;
       }
       toast.error('There was an error fetching shopify url ☹️', {
         position: toast.POSITION.BOTTOM_LEFT,
       });
     }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/login');
   };
 
   if (state === State.LOADING) {

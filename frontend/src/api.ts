@@ -11,8 +11,7 @@ type LoginParams = {
   password: string;
 };
 
-// TODO: process.env.BACKEND_URL
-const HOST = 'http://localhost:8080';
+const HOST = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
 const API = axios.create({
   baseURL: HOST,
