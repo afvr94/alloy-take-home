@@ -10,7 +10,9 @@
     "format:check": "prettier --list-different .",
     "lint": "eslint --fix \"./**/*.{js,ts}\"",
     "lint:check": "eslint \"./**/*.{js,ts}\"",
-    "start": "ts-node src/server.ts"
+    "tsc": "tsc",
+    "postinstall": "tsc",
+    "start": "ts-node dist/src/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,9 +27,7 @@
     "jsonwebtoken": "8.5.1",
     "mongoose": "^5.13.7",
     "qs": "6.7.0",
-    "validator": "13.6.0",
-    "ts-node": "10.2.1",
-    "typescript": "4.3.5"
+    "validator": "13.6.0"
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.0",
@@ -46,6 +46,8 @@
     "eslint-plugin-import": "2.24.1",
     "eslint-plugin-prettier": "3.4.0",
     "nodemon": "2.0.12",
-    "prettier": "2.3.2"
+    "prettier": "2.3.2",
+    "ts-node": "10.2.1",
+    "typescript": "4.3.5"
   }
 }

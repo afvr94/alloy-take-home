@@ -122,7 +122,7 @@ router.get(
         })
         .exec();
 
-      res.redirect('http://localhost:3000/auth');
+      res.redirect(`${process.env.FRONTEND_URL || ''}/auth`);
     } catch (err) {
       // if it errors out we log it and return an error.
       res.status(500).send('something went wrong');

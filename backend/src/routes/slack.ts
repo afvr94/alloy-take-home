@@ -95,7 +95,7 @@ router.get('/oauth_redirect', async (req: Request, res: Response) => {
           slackChannelId,
         })
         .exec();
-      res.redirect('http://localhost:3000/auth');
+      res.redirect(`${process.env.FRONTEND_URL || ''}/auth`);
     } catch (err) {
       res.status(404).send('Account with that slack email was not found.');
       return;
