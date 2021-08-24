@@ -19,63 +19,12 @@ The project will consist of building a a mini workflow engine that listens for n
 - Typescript
 - MongoDB
 
-### Models
-
-- `Account` <br />
-  Represents account that will be linked to slack and shopify.
-
-  - `email` - REQUIRED STRING <br />
-    Account email
-  - `password` - REQUIRED STRING <br />
-    Encrypted password
-  - `shopifyUrl` - REQUIRED STRING <br />
-    Channel that the bot will message to.
-  - `shopifyAccessToken` - STRING <br />
-    Shopify token to be able add webhook and access api.
-  - `slackAccessToken` - STRING <br />
-    Slack token to be able to message
-  - `slackChannelId` - STRING <br />
-    Channel that the bot will message to.
-
-### APIS
-
-- GET `/account` <br />
-  A route that serve account back to the client: <br />
-
-  ```
-  // Account
-  {
-    email: "some@email.com",
-    isSlackAuthenticated: true | false,
-    isShopifyAuthenticated: true | false,
-  }
-  ```
-
-- POST `/auth/login` <br />
-  A route to serve login event for the client. <br />
-  Request must have: <br />
-
-  - email
-  - password<br />
-
-  ```
-  // Login token
-  {
-    "token": some-JWT-token
-  }
-  ```
-
-- POST `/auth/register` <br />
-  A route to handle registering new accounts <br />
-  Request must have: <br />
-
-  - email
-  - password
-  - shopifyUrl <br />
+**MORE BACKEND INFO**:
+**MORE FRONTEND INFO**:
 
 ## Setup and Run Backend
 
-To run the backend locally:
+Every slack and shopify token must be set in the `.env` for backend to work. Also, must be configured and connected to a mongoDB. To run the backend locally:
 
 ```
 cd /path/to/alloy/backend
@@ -97,12 +46,20 @@ To run a local server use the command
 ```
 cd /path/to/alloy/frontend
 
+# Create and copy example .env
+cp example.env .env
+
 # Install packages
 npm i
 
 # Run backend
 npm run start
 ```
+
+## Test in "production"
+
+FRONTEND URL: https://alloy-take-home-frontend.herokuapp.com
+BACKEND URL: https://alloy-take-home-backend.herokuapp.com
 
 ### TESTS
 
@@ -111,9 +68,14 @@ npm run start
 ### TODO
 
 - Dockerize
-- ....
-
+- Better authentication. Maybe have a refresh token and access token
+- Shopify better verification with state and hmac [https://shopify.dev/apps/auth/oauth#how-the-installation-flow-works]
+- Tests for backend and frontend
+- Better account handle with slack and shopify
+- Frontend improve token handling. We could have an axios interceptor for response `401` and request a new token.
+- Have a Frontend task to ask for new token every x time
+- Create a base any type of integrations
 
 ## Challange PDF
-[ENG Interview Process - Take home project (1).pdf](https://github.com/afvr94/alloy-take-home/files/7035878/ENG.Interview.Process.-.Take.home.project.1.pdf)
 
+[ENG Interview Process - Take home project (1).pdf](https://github.com/afvr94/alloy-take-home/files/7035878/ENG.Interview.Process.-.Take.home.project.1.pdf)

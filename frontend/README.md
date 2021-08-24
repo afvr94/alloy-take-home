@@ -1,6 +1,23 @@
-# Getting Started with Create React App
+# Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The alloy take home frontend to sign up and authenticate slack and shopify. Its a React application created by [`create-react-app`](https://create-react-app.dev/) with typescript which includes everything needed. The application is using hooks for must part of the code. The frontend is using [tailwindcss](https://tailwindcss.com) as our base for css, we should not use custom css unless necessary.
+
+## Setup and Run Frontend
+
+To run a local server use the command
+
+```
+cd /path/to/alloy/frontend
+
+# Create and copy example .env
+cp example.env .env
+
+# Install packages
+npm i
+
+# Run backend
+npm run start
+```
 
 ## Available Scripts
 
@@ -16,8 +33,7 @@ You will also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- TODO
 
 ### `npm run build`
 
@@ -39,8 +55,11 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Test in "production"
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+FRONTEND URL: https://alloy-take-home-frontend.herokuapp.com
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### TODO:
+
+- Frontend improve token handling. We could have an axios interceptor for response `401` and request a new token.
+- Have a Frontend task to ask for new token every x time

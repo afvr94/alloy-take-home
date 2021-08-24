@@ -69,7 +69,7 @@ router.get(
 
     const shopifyApiPublicKey = process.env.SHOPIFY_PUBLIC_API_KEY || '';
 
-    const redirectUri = `${process.env.BACKEND_URL || ''}/shopify/callback`;
+    const redirectUri = `${process.env.BACKEND_URL || ''}/shopify/oauth_redirect`;
 
     const SHOPIFY_OAUTH_URL = `https://${account.shopifyUrl}/admin/oauth/authorize?client_id=${shopifyApiPublicKey}&scope=read_orders&state=${VALID_STATE}&redirect_uri=${redirectUri}`;
     res.json({ url: SHOPIFY_OAUTH_URL });
@@ -77,7 +77,7 @@ router.get(
 );
 
 router.get(
-  '/callback',
+  '/oauth_redirect',
   async (req: Request<unknown, unknown, { shop: string; code: string; state: string }>, res) => {
     const { shop, code, state } = req.query;
 
@@ -109,13 +109,14 @@ router.get(
           format: 'json',
         },
       };
-
+      // subscribe store to order/create event webhook
       await axios.post(`https://${shop}/admin/api/2021-04/webhooks.json`, webhookData, {
         headers: {
           'Content-Type': 'application/json',
           'X-Shopify-Access-Token': shopifyAccessToken,
         },
       });
+      // update shopifyAccessToken to what shopify gave us
       await Account.where({ shopifyUrl: shop })
         .updateMany({
           shopifyAccessToken,

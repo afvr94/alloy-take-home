@@ -129,12 +129,17 @@ const Register: React.FC = () => {
                 id="password"
                 type="password"
                 className="sm:text-sm w-full p-2 mt-1 text-black transition duration-150 ease-in-out bg-white border border-gray-500 rounded appearance-none"
-                {...register('password', { required: 'The password is required' })}
+                {...register('password', { required: true, minLength: 8 })}
                 data-testid="password"
               />
-              {errors.password && (
+              {errors?.password?.type === 'required' && (
                 <p className="text-xs font-semibold text-red-500" data-testid="password-error">
-                  {errors.password.message}
+                  The password is required
+                </p>
+              )}
+              {errors?.password?.type === 'minLength' && (
+                <p className="text-xs font-semibold text-red-500" data-testid="password-error">
+                  The password must be greater than 8 characters
                 </p>
               )}
             </label>

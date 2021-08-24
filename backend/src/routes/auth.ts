@@ -51,11 +51,12 @@ router.post(
         res.status(401).json({ message: 'Authentication failed. Invalid user or password.' });
         return;
       }
+      const jwtSecret = process.env.JWT_SECRET || 'ALLOYTAKEHOME';
       res.json({
         token: jwt.sign(
           // eslint-disable-next-line no-underscore-dangle
           { email: account.email, id: account._id },
-          'ALLOYTAKEHOME',
+          jwtSecret,
           { expiresIn: '1h' }
         ),
       });

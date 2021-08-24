@@ -89,6 +89,7 @@ router.get('/oauth_redirect', async (req: Request, res: Response) => {
     } = authDetails.data;
 
     try {
+      // save necessary slack information to slack
       await Account.where({ email: user.data.user.email })
         .updateMany({
           slackAccessToken,
