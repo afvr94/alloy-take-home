@@ -1,5 +1,16 @@
 import axios, { AxiosPromise } from 'axios';
 
+type RegisterParams = {
+  email: string;
+  password: string;
+  shopifyUrl: string;
+};
+
+type LoginParams = {
+  email: string;
+  password: string;
+};
+
 // TODO: process.env.BACKEND_URL
 const HOST = 'http://localhost:8080';
 
@@ -21,13 +32,11 @@ API.interceptors.request.use(
   }
 );
 
-export const login = (email: string, password: string): AxiosPromise<{ token: string }> =>
+export const login = ({ email, password }: LoginParams): AxiosPromise<{ token: string }> =>
   API.post('/auth/login', { email, password });
 
-export const register = (
-  email: string,
-  password: string
-): AxiosPromise<{ slackAccessToke: string }> => API.post('/auth/register', { email, password });
+export const register = ({ email, password, shopifyUrl }: RegisterParams): AxiosPromise =>
+  API.post('/auth/register', { email, password, shopifyUrl });
 
 export const fetchAccount = (): AxiosPromise<{
   email: string;

@@ -16,11 +16,17 @@ router.post(
   ) => {
     try {
       const { email, password, shopifyUrl } = req.body;
-      if (validator.isEmail(email)) {
+      if (!email || !password || !shopifyUrl) {
+        res.status(400).send('Missing params');
+        return;
+      }
+      if (!validator.isEmail(email)) {
         res.status(400).send('Email is invalid');
         return;
       }
-      if (validator.isURL(shopifyUrl, { require_protocol: false, require_valid_protocol: false })) {
+      if (
+        !validator.isURL(shopifyUrl, { require_protocol: false, require_valid_protocol: false })
+      ) {
         res.status(400).send('shopify url is invalid');
         return;
       }

@@ -11,6 +11,7 @@ const Login: React.FC = () => {
     setError,
     formState: { errors },
     handleSubmit,
+    clearErrors,
   } = useForm();
 
   useEffect(() => {
@@ -28,11 +29,14 @@ const Login: React.FC = () => {
     password: string;
   }): Promise<void> => {
     try {
-      const { data } = await login(email, password);
+      const { data } = await login({ email, password });
       localStorage.setItem('authToken', data.token);
       navigate('/auth');
     } catch (err) {
       setError('server', { type: 'server', message: 'Email and/or password is incorrect' });
+      setTimeout(() => {
+        clearErrors('server');
+      }, 2000);
     }
   };
 

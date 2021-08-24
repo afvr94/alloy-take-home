@@ -8,6 +8,7 @@ import { MongoErrorCode } from '../constants';
 type FormData = {
   email: string;
   password: string;
+  shopifyUrl: string;
 };
 
 const Register: React.FC = () => {
@@ -19,6 +20,7 @@ const Register: React.FC = () => {
     getValues,
     setError,
     handleSubmit,
+    clearErrors,
   } = useForm();
 
   useEffect(() => {
@@ -28,9 +30,10 @@ const Register: React.FC = () => {
     navigate('/auth');
   }, [navigate]);
 
-  const onSubmit = async ({ email, password }: FormData): Promise<void> => {
+  const onSubmit = async ({ email, password, shopifyUrl }: FormData): Promise<void> => {
+    clearErrors('server');
     try {
-      await registerApi(email, password);
+      await registerApi({ email, password, shopifyUrl });
       navigate('/login');
     } catch (err) {
       if (err.response.data.code === MongoErrorCode.DUPLICATED) {
@@ -38,6 +41,9 @@ const Register: React.FC = () => {
         return;
       }
       setError('server', { type: 'server', message: ' Oh no! A server error has occurred' });
+      setTimeout(() => {
+        clearErrors('server');
+      }, 2000);
     }
   };
 
