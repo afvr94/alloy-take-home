@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import validator from 'validator';
 import { register as registerApi } from '../api';
+import { MongoErrorCode } from '../constants';
+
+type FormData = {
+  email: string;
+  password: string;
+};
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -15,19 +21,19 @@ const Register: React.FC = () => {
     handleSubmit,
   } = useForm();
 
-  const onSubmit = async ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }): Promise<void> => {
+  useEffect(() => {
+    const authToken = localStorage.getItem('authToken');
+    // if no auth token not authenticated
+    if (!authToken) return;
+    navigate('/auth');
+  }, [navigate]);
+
+  const onSubmit = async ({ email, password }: FormData): Promise<void> => {
     try {
       await registerApi(email, password);
       navigate('/login');
     } catch (err) {
-      // TODO: ADD TO A ENUM
-      if (err.response.data.code === 11000) {
+      if (err.response.data.code === MongoErrorCode.DUPLICATED) {
         setError('email', { type: 'server', message: 'Email already exist' });
         return;
       }
@@ -43,6 +49,7 @@ const Register: React.FC = () => {
 
   const validateEmail = (value: string) => validator.isEmail(value);
 
+  // A shopify usl should be a valid url, include "myshopify" and not include protocol
   const validateURL = (value: string) => {
     if (!validator.isURL(value, { require_protocol: false, require_valid_protocol: false })) {
       return false;

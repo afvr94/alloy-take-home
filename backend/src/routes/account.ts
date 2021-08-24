@@ -13,8 +13,19 @@ router.get('/', [checkJwt], async (req: Request, res: Response) => {
       res.sendStatus(401);
       return;
     }
-    const accountResponse = { ...account.toObject(), password: '' };
-    res.json(accountResponse);
+
+    const hasSlackAccessToken =
+      typeof account.slackAccessToken === 'string' && account.slackAccessToken.length > 0;
+    const hasSlackChannelId =
+      typeof account.slackChannelId === 'string' && account.slackChannelId.length > 0;
+
+    const isSlackAuthenticated = hasSlackAccessToken && hasSlackChannelId;
+    const isShopifyAuthenticated =
+      typeof account.shopifyAccessToken === 'string' && account.shopifyAccessToken.length > 0;
+
+    const response = { email: account.email, isSlackAuthenticated, isShopifyAuthenticated };
+
+    res.json(response);
   } catch (err) {
     res.status(400).send(err);
   }

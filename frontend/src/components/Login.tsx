@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { login } from '../api';
@@ -13,6 +13,13 @@ const Login: React.FC = () => {
     handleSubmit,
   } = useForm();
 
+  useEffect(() => {
+    const authToken = localStorage.getItem('authToken');
+    // if no auth token not authenticated
+    if (!authToken) return;
+    navigate('/auth');
+  }, [navigate]);
+
   const onSubmit = async ({
     email,
     password,
@@ -21,7 +28,8 @@ const Login: React.FC = () => {
     password: string;
   }): Promise<void> => {
     try {
-      await login(email, password);
+      const { data } = await login(email, password);
+      localStorage.setItem('authToken', data.token);
       navigate('/auth');
     } catch (err) {
       setError('server', { type: 'server', message: 'Email and/or password is incorrect' });

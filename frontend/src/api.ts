@@ -7,7 +7,21 @@ const API = axios.create({
   baseURL: HOST,
 });
 
-export const login = (email: string, password: string): AxiosPromise<{ slackAccessToke: string }> =>
+API.interceptors.request.use(
+  (config) => {
+    const authToken = localStorage.getItem('authToken');
+    if (authToken) {
+      // eslint-disable-next-line no-param-reassign, @typescript-eslint/no-unsafe-member-access
+      config.headers.Authorization = `${authToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export const login = (email: string, password: string): AxiosPromise<{ token: string }> =>
   API.post('/auth/login', { email, password });
 
 export const register = (
@@ -15,16 +29,12 @@ export const register = (
   password: string
 ): AxiosPromise<{ slackAccessToke: string }> => API.post('/auth/register', { email, password });
 
-export const getSlackUrl = (): AxiosPromise<{ url: string }> =>
-  API.get('/slack/url', {
-    headers: {
-      auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiZGllbEBnbWFpbC5jb20iLCJpZCI6IjYxMjMwODhiMDBkMzZiN2QwMmFmNDY3MCIsImlhdCI6MTYyOTc0MjIyNCwiZXhwIjoxNjI5NzQ1ODI0fQ.ka9ijdNRlW6xsWa-DInoiHQK8rWwf8C3h0KoVC0oxyQ',
-    },
-  });
+export const fetchAccount = (): AxiosPromise<{
+  email: string;
+  isSlackAuthenticated: boolean;
+  isShopifyAuthenticated: boolean;
+}> => API.get('/account');
 
-export const getShopifyUrl = (): AxiosPromise<{ url: string }> =>
-  API.get('/shopify/url', {
-    headers: {
-      auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiZGllbDAxN0BnbWFpbC5jb20iLCJpZCI6IjYxMjMwODhiMDBkMzZiN2QwMmFmNDY3MCIsImlhdCI6MTYyOTc2MjMyNSwiZXhwIjoxNjI5NzY1OTI1fQ.BFHglkxTUYtsjJIYj--9aE14U_qMyMJbucbQ6BfFB6Q',
-    },
-  });
+export const fetchSlackUrl = (): AxiosPromise<{ url: string }> => API.get('/slack/url');
+
+export const fetchShopifyUrl = (): AxiosPromise<{ url: string }> => API.get('/shopify/url');
