@@ -10,8 +10,7 @@
     "format:check": "prettier --list-different .",
     "lint": "eslint --fix \"./**/*.{js,ts}\"",
     "lint:check": "eslint \"./**/*.{js,ts}\"",
-    "tsc": "tsc",
-    "prod:start": "npm run tsc && node dist/index.js"
+    "start": "ts-node src/config/server.ts"
   },
   "author": "",
   "license": "ISC",
