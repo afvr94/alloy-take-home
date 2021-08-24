@@ -3,14 +3,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const HOSTNAME = process.env?.MONGO_HOSTNAME || '';
-const DB = process.env.MONGO_DB || '';
+const MONGO_HOSTNAME = process.env?.MONGO_HOSTNAME || '';
 
 const db = {
   connect: (): Promise<void> =>
     new Promise((resolve, reject) => {
       mongoose
-        .connect(`mongodb://${HOSTNAME}/${DB}`, {
+        .connect(MONGO_HOSTNAME, {
           useNewUrlParser: true,
           useCreateIndex: true,
           useUnifiedTopology: true,
