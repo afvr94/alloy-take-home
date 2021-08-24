@@ -12,7 +12,7 @@
     "lint:check": "eslint \"./**/*.{js,ts}\"",
     "tsc": "tsc",
     "postinstall": "tsc",
-    "start": "ts-node dist/src/server.js"
+    "start": "node dist/src/server.js"
   },
   "author": "",
   "license": "ISC",
