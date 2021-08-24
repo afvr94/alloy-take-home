@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
+import validator from 'validator';
 import { register as registerApi } from '../api';
 
 const Register: React.FC = () => {
@@ -10,6 +11,7 @@ const Register: React.FC = () => {
     register,
     formState: { errors },
     getValues,
+    setError,
     handleSubmit,
   } = useForm();
 
@@ -22,21 +24,31 @@ const Register: React.FC = () => {
   }): Promise<void> => {
     try {
       await registerApi(email, password);
-      console.log('registered');
       navigate('/login');
     } catch (err) {
       // TODO: ADD TO A ENUM
       if (err.response.data.code === 11000) {
-        console.log('duplicated');
+        setError('email', { type: 'server', message: 'Email already exist' });
+        return;
       }
-      console.log(err.response.data);
-      console.log(err);
+      setError('server', { type: 'server', message: ' Oh no! A server error has occurred' });
     }
   };
 
   const validatePassword = (value: string): boolean => {
     const { password } = getValues();
     if (password !== value) return false;
+    return true;
+  };
+
+  const validateEmail = (value: string) => validator.isEmail(value);
+
+  const validateURL = (value: string) => {
+    if (!validator.isURL(value, { require_protocol: false, require_valid_protocol: false })) {
+      return false;
+    }
+    if (['http', 'https', 'ftp'].some((str) => value.indexOf(str) >= 0)) return false;
+    if (!value.includes('myshopify.com')) return false;
     return true;
   };
 
@@ -54,19 +66,50 @@ const Register: React.FC = () => {
                 className="sm:text-sm w-full p-2 mt-2 text-black transition duration-150 ease-in-out bg-white border border-gray-500 rounded appearance-none"
                 data-testid="email"
                 {...register('email', {
-                  required: 'The email is required',
-                  pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: 'Entered value does not match email format',
-                  },
+                  required: true,
+                  validate: validateEmail,
                 })}
               />
+              {errors?.email?.type === 'required' && (
+                <p className="text-xs font-semibold text-red-500" data-testid="username-error">
+                  The email is required
+                </p>
+              )}
+              {errors?.email?.type === 'validate' && (
+                <p
+                  className="text-xs font-semibold text-red-500"
+                  data-testid="confirm-password-error"
+                >
+                  Entered value does not match email format
+                </p>
+              )}
             </label>
-            {errors.email && (
-              <p className="text-xs font-semibold text-red-500" data-testid="username-error">
-                {errors.email.message}
-              </p>
-            )}
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Shopify URL
+              <input
+                id="shopifyUrl"
+                type="text"
+                className="sm:text-sm w-full p-2 mt-2 text-black transition duration-150 ease-in-out bg-white border border-gray-500 rounded appearance-none"
+                data-testid="shopifyUrl"
+                {...register('shopifyUrl', {
+                  required: true,
+                  validate: validateURL,
+                })}
+              />
+              {errors?.shopifyUrl?.type === 'required' && (
+                <p className="text-xs font-semibold text-red-500" data-testid="username-error">
+                  The shopify is required (e.g. [your shop name].myshopify.com)
+                </p>
+              )}
+              {errors?.shopifyUrl?.type === 'validate' && (
+                <p
+                  className="text-xs font-semibold text-red-500"
+                  data-testid="confirm-password-error"
+                >
+                  Entered a valid url (e.g. [your shop name].myshopify.com)
+                </p>
+              )}
+            </label>
             <label htmlFor="password" className="block mt-6 text-sm font-medium text-gray-700">
               Password
               <input
@@ -76,12 +119,12 @@ const Register: React.FC = () => {
                 {...register('password', { required: 'The password is required' })}
                 data-testid="password"
               />
+              {errors.password && (
+                <p className="text-xs font-semibold text-red-500" data-testid="password-error">
+                  {errors.password.message}
+                </p>
+              )}
             </label>
-            {errors.password && (
-              <p className="text-xs font-semibold text-red-500" data-testid="password-error">
-                {errors.password.message}
-              </p>
-            )}
             <label
               htmlFor="confirm_password"
               className="block mt-6 text-sm font-medium text-gray-700"
@@ -91,7 +134,7 @@ const Register: React.FC = () => {
                 id="confirmPassword"
                 className="sm:text-sm w-full p-2 mt-1 text-black transition duration-150 ease-in-out bg-white border border-gray-500 rounded appearance-none"
                 {...register('confirmPassword', {
-                  required: 'The confirm password is required',
+                  required: true,
                   validate: validatePassword,
                 })}
                 data-testid="confirm-password"
@@ -122,6 +165,11 @@ const Register: React.FC = () => {
             >
               Back
             </NavLink>
+            {errors.server && (
+              <p className="text-xs font-semibold text-red-500" data-testid="server-error">
+                {errors.server.message}
+              </p>
+            )}
             <button
               type="submit"
               className="hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm"

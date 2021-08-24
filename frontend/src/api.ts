@@ -8,9 +8,23 @@ const API = axios.create({
 });
 
 export const login = (email: string, password: string): AxiosPromise<{ slackAccessToke: string }> =>
-  API.post('/api/login', { email, password });
+  API.post('/auth/login', { email, password });
 
 export const register = (
   email: string,
   password: string
-): AxiosPromise<{ slackAccessToke: string }> => API.post('/api/register', { email, password });
+): AxiosPromise<{ slackAccessToke: string }> => API.post('/auth/register', { email, password });
+
+export const getSlackUrl = (): AxiosPromise<{ url: string }> =>
+  API.get('/slack/url', {
+    headers: {
+      auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiZGllbEBnbWFpbC5jb20iLCJpZCI6IjYxMjMwODhiMDBkMzZiN2QwMmFmNDY3MCIsImlhdCI6MTYyOTc0MjIyNCwiZXhwIjoxNjI5NzQ1ODI0fQ.ka9ijdNRlW6xsWa-DInoiHQK8rWwf8C3h0KoVC0oxyQ',
+    },
+  });
+
+export const getShopifyUrl = (): AxiosPromise<{ url: string }> =>
+  API.get('/shopify/url', {
+    headers: {
+      auth: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiZGllbDAxN0BnbWFpbC5jb20iLCJpZCI6IjYxMjMwODhiMDBkMzZiN2QwMmFmNDY3MCIsImlhdCI6MTYyOTc2MjMyNSwiZXhwIjoxNjI5NzY1OTI1fQ.BFHglkxTUYtsjJIYj--9aE14U_qMyMJbucbQ6BfFB6Q',
+    },
+  });

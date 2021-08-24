@@ -16,10 +16,12 @@ const db = {
           useUnifiedTopology: true,
         })
         .then(() => {
+          // eslint-disable-next-line no-console
           console.log('Database is connected');
           resolve();
         })
         .catch((err) => {
+          // eslint-disable-next-line no-console
           console.log(`Connection error: ${JSON.stringify(err)}`);
           reject(new Error(`Error in connection to database: ${JSON.stringify(err)}`));
         });

@@ -30,7 +30,9 @@
         "tsx": "never"
       }
     ],
-    "@typescript-eslint/no-misused-promises": "off"
+    "@typescript-eslint/no-misused-promises": "off",
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   },
   "settings": {
     "import/resolver": {

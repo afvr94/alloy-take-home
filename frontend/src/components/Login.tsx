@@ -1,12 +1,14 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { login } from '../api';
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const {
     register,
+    setError,
     formState: { errors },
     handleSubmit,
   } = useForm();
@@ -20,9 +22,9 @@ const Login: React.FC = () => {
   }): Promise<void> => {
     try {
       await login(email, password);
-      console.log('logged');
+      navigate('/auth');
     } catch (err) {
-      console.log(err);
+      setError('server', { type: 'server', message: 'Email and/or password is incorrect' });
     }
   };
 
@@ -80,6 +82,11 @@ const Login: React.FC = () => {
         >
           Sign up
         </NavLink>
+        {errors.server && (
+          <p className="text-xs font-semibold text-red-500" data-testid="password-error">
+            {errors.server.message}
+          </p>
+        )}
         <button
           type="submit"
           className="hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex justify-center w-full px-4 py-2 mt-4 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm"
