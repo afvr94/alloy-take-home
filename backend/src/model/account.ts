@@ -28,14 +28,12 @@ const AccountSchema = new Schema<IAccountSchema>({
     required: true,
     trim: true,
   },
-  // TODO: CHECK IF THIS IS THE ONLY THING NEEDED
   slackAccessToken: {
     type: String,
   },
   slackChannelId: {
     type: String,
   },
-  // TODO: CHECK IF THIS IS THE ONLY THING NEEDED
   shopifyAccessToken: {
     type: String,
   },

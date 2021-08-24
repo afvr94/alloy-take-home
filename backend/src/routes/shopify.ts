@@ -1,7 +1,5 @@
 import { Request, Response, Router } from 'express';
 import dotenv from 'dotenv';
-// TODO: REMOVE
-// import { nanoid } from 'nanoid';
 import qs from 'qs';
 import axios, { AxiosResponse } from 'axios';
 import { checkJwt } from '../middleware';
