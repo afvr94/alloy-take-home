@@ -9,7 +9,10 @@
     "format": "prettier --write .",
     "format:check": "prettier --list-different .",
     "lint": "eslint --fix \"./**/*.{js,ts}\"",
-    "lint:check": "eslint \"./**/*.{js,ts}\""
+    "lint:check": "eslint \"./**/*.{js,ts}\"",
+    "tsc": "tsc",
+    "start": "node dist/index.js",
+    "postinstall": "tsc"
   },
   "author": "",
   "license": "ISC",
