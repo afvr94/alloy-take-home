@@ -19,7 +19,7 @@ The project will consist of building a a mini workflow engine that listens for n
 - Typescript
 - MongoDB
 
-**MORE BACKEND INFO**: https://github.com/afvr94/alloy-take-home/blob/main/backend/README.md
+**MORE BACKEND INFO**: https://github.com/afvr94/alloy-take-home/blob/main/backend/README.md <br />
 **MORE FRONTEND INFO**: https://github.com/afvr94/alloy-take-home/blob/main/frontend/README.md
 
 ## Setup and Run Backend
