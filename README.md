@@ -112,3 +112,8 @@ npm run start
 
 - Dockerize
 - ....
+
+
+## Challange PDF
+[ENG Interview Process - Take home project (1).pdf](https://github.com/afvr94/alloy-take-home/files/7035878/ENG.Interview.Process.-.Take.home.project.1.pdf)
+
