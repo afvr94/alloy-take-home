@@ -10,7 +10,7 @@
     "format:check": "prettier --list-different .",
     "lint": "eslint --fix \"./**/*.{js,ts}\"",
     "lint:check": "eslint \"./**/*.{js,ts}\"",
-    "start": "ts-node src/config/server.ts"
+    "start": "ts-node src/server.ts"
   },
   "author": "",
   "license": "ISC",
