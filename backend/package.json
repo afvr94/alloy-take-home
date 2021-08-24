@@ -11,8 +11,7 @@
     "lint": "eslint --fix \"./**/*.{js,ts}\"",
     "lint:check": "eslint \"./**/*.{js,ts}\"",
     "tsc": "tsc",
-    "prod:start": "node app/dist/index.js",
-    "postinstall": "tsc"
+    "prod:start": "npm run tsc && node dist/index.js"
   },
   "author": "",
   "license": "ISC",
