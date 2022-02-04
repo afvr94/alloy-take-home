@@ -1,4 +1,4 @@
-# Alloy Take Home Challenge
+# Slack + Shopify Workflow
 
 ## Introduction
 
