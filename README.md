@@ -19,15 +19,13 @@ The project will consist of building a a mini workflow engine that listens for n
 - Typescript
 - MongoDB
 
-**MORE BACKEND INFO**: https://github.com/afvr94/alloy-take-home/blob/main/backend/README.md <br />
-**MORE FRONTEND INFO**: https://github.com/afvr94/alloy-take-home/blob/main/frontend/README.md
 
 ## Setup and Run Backend
 
 Every slack and shopify token must be set in the `.env` for backend to work. Also, must be configured and connected to a mongoDB. To run the backend locally:
 
 ```
-cd /path/to/alloy/backend
+cd /path/to/backend
 
 # Create and copy example .env
 cp example.env .env
@@ -44,7 +42,7 @@ npm run dev
 To run a local server use the command
 
 ```
-cd /path/to/alloy/frontend
+cd /path/to/frontend
 
 # Create and copy example .env
 cp example.env .env
@@ -55,11 +53,6 @@ npm i
 # Run backend
 npm run start
 ```
-
-## Test in "production"
-
-FRONTEND URL: https://alloy-take-home-frontend.herokuapp.com
-BACKEND URL: https://alloy-take-home-backend.herokuapp.com
 
 ### TESTS
 
@@ -75,7 +68,3 @@ BACKEND URL: https://alloy-take-home-backend.herokuapp.com
 - Frontend improve token handling. We could have an axios interceptor for response `401` and request a new token.
 - Have a Frontend task to ask for new token every x time
 - Create a base any type of integrations
-
-## Challange PDF
-
-[ENG Interview Process - Take home project (1).pdf](https://github.com/afvr94/alloy-take-home/files/7035878/ENG.Interview.Process.-.Take.home.project.1.pdf)
